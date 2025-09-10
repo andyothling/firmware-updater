@@ -253,7 +253,7 @@ var device = null;
                     logInfo("Detected pedal: " + pedalIdentifier[fwarray[4]]);
                 }
                 else {
-                    logInfo("Could not identify pedal.");
+                    logInfo("Could not identify pedal: " + fwarray[4]);
                 }
 
 
