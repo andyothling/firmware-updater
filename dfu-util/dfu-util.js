@@ -218,7 +218,16 @@ var device = null;
     }
 
     async function getFirmware(device) {    
-        let pedalIdentifier = {229: "Black Fountain", 177: "Dark Star", 77: "Bathing"}; 
+        let BlackFountain = "Black Fountain";
+        let DarkStar = "Dark Star";
+        let Bathing = "Bathing"
+        let pedalIdentifier = {"008362291841819763": BlackFountain,
+            "00836971861812164": BlackFountain,
+            "008361771881816966": DarkStar,
+            "00836651871815367": DarkStar,
+            "00836771941823769": Bathing
+        }; 
+
         //event.preventDefault();
         //event.stopPropagation();
         if (!configForm.checkValidity()) {
@@ -247,13 +256,22 @@ var device = null;
             try {
                 let fwblob = await device.do_upload(transferSize, maxSize);
                 const fwblobarray = await fwblob.arrayBuffer();
-                const fwarray = new Uint8Array(fwblobarray);
+                var fwarray = new Uint8Array(fwblobarray);
+                logDebug(fwarray);
 
-                if (pedalIdentifier.hasOwnProperty(fwarray[4])){
-                    logInfo("Detected pedal: " + pedalIdentifier[fwarray[4]]);
+                var fw = ""
+                
+                for (let i = 0; i < maxSize; i++){
+                    fw += fwarray[i].toString();
+                }
+
+                logDebug("fw: " + fw);
+
+                if (pedalIdentifier.hasOwnProperty(fw)){
+                    logInfo("Detected pedal: " + pedalIdentifier[fw]);
                 }
                 else {
-                    logInfo("Could not identify pedal: " + fwarray[4]);
+                    logInfo("Could not identify pedal: " + fw);
                 }
 
 
