@@ -224,7 +224,7 @@ var firmwareFile = null;
         let DarkStar = "Dark Star";
         let Bathing = "Bathing";
         let Sunlight = "Sunlight";
-        let Parting = "Paring";
+        let Parting = "Parting";
 
         let pedalIdentifier = {
             "008362291841819763": [BlackFountain, "4.0B"],
