@@ -224,6 +224,7 @@ var firmwareFile = null;
         let DarkStar = "Dark Star";
         let Bathing = "Bathing";
         let Sunlight = "Sunlight";
+        let Parting = "Paring";
 
         let pedalIdentifier = {
             "008362291841819763": [BlackFountain, "4.0B"],
@@ -236,7 +237,9 @@ var firmwareFile = null;
             "00836201197182972": [Sunlight, "2.4C"],
             "00836249197187772": [Sunlight, "2.4D"],
             "00836253197186972": [Sunlight, "2.4E"],
-            "00836771941823769": [Bathing, "1.0D"]
+            "00836291941819769": [Bathing, "1.0D"],
+            "00836512208137119": [Parting, "1.0A"],
+            "008365312208185119": [Parting, "1.0B"]
         }; 
 
         //event.preventDefault();
