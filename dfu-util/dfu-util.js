@@ -226,11 +226,11 @@ var firmwareFile = null;
         let Sunlight = "Sunlight";
 
         let pedalIdentifier = {
-            "008362291841819763": BlackFountain,
-            "00836971861812164": BlackFountain,
-            "008361771881816966": DarkStar,
-            "00836651871815367": DarkStar,
-            "00836771941823769": Bathing
+            "008362291841819763": [BlackFountain, "4.0B"],
+            "00836971861812164": [BlackFountain, "4.0D"],
+            "008361771881816966": [DarkStar, "3.0J"],
+            "00836651871815367": [DarkStar, "3.0L"],
+            "00836771941823769": [Bathing, "1.0D"]
         }; 
 
         //event.preventDefault();
@@ -271,7 +271,7 @@ var firmwareFile = null;
 
                 if (pedalIdentifier.hasOwnProperty(fw)){
                     logInfo("Detected pedal: " + pedalIdentifier[fw]);
-                    pedalName = pedalIdentifier[fw];
+                    pedalName = `${pedalIdentifier[fw[0]]} - ${pedalIdentifier[fw[1]]}`;
                 }
                 else {
                     logInfo("Could not identify pedal: " + fw);
