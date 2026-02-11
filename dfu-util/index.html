@@ -31,7 +31,11 @@
       <button id="connect">Connect</button>
     </p>
 
-          <div class="log" id="uploadLog"></div>
+    <div class="log" id="uploadLog"></div>
+
+    <p>
+        <button id="upload" disabled="true">Upload</button>
+    </p>
 
     <dialog id="interfaceDialog">
       Your device has multiple DFU interfaces. Select one from the list below:
@@ -47,6 +51,15 @@
       <legend>Runtime mode</legend>
       <button id="detach" disabled="true">Detach DFU</button>
     </fieldset>-->
+        <p>
+      <label for="firmwareFiles">Firmware:</label>
+      <input list="firmwareFiles" type="text" name="firmwareFile" id="firmwareFile"/>
+      <datalist id="firmwareFiles">
+        <option value="https://github.com/andyothling/firmware-updater/releases/download/dfu/dsfw.bin">Dark Star</option>
+        <option value="https://github.com/andyothling/firmware-updater/releases/download/dfu/bffw.bin">Black Fountain</option>
+        <option value="bgfw.bin">Bathing</option>
+      </datalist>
+    </p>
     <fieldset style="display: none;">
       <form id="configForm">
         <fieldset>

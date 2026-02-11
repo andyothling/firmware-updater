@@ -1,4 +1,6 @@
 var device = null;
+var pedalName = null;
+var firmwareFile = null;
 (function() {
     'use strict';
 
@@ -153,7 +155,7 @@ var device = null;
         );
     }
 
-    // Current log div element to append to
+    // Current log div element to append
     let logContext = null;
 
     function setLogContext(div) {
@@ -220,8 +222,11 @@ var device = null;
     async function getFirmware(device) {    
         let BlackFountain = "Black Fountain";
         let DarkStar = "Dark Star";
-        let Bathing = "Bathing"
-        let pedalIdentifier = {"008362291841819763": BlackFountain,
+        let Bathing = "Bathing";
+        let Sunlight = "Sunlight";
+
+        let pedalIdentifier = {
+            "008362291841819763": BlackFountain,
             "00836971861812164": BlackFountain,
             "008361771881816966": DarkStar,
             "00836651871815367": DarkStar,
@@ -257,7 +262,6 @@ var device = null;
                 let fwblob = await device.do_upload(transferSize, maxSize);
                 const fwblobarray = await fwblob.arrayBuffer();
                 var fwarray = new Uint8Array(fwblobarray);
-                logDebug(fwarray);
 
                 var fw = ""
                 
@@ -265,10 +269,9 @@ var device = null;
                     fw += fwarray[i].toString();
                 }
 
-                logDebug("fw: " + fw);
-
                 if (pedalIdentifier.hasOwnProperty(fw)){
                     logInfo("Detected pedal: " + pedalIdentifier[fw]);
+                    pedalName = pedalIdentifier[fw];
                 }
                 else {
                     logInfo("Could not identify pedal: " + fw);
@@ -286,13 +289,40 @@ var device = null;
 
     }
 
-    function buf2hex(buffer) { // buffer is an ArrayBuffer
-        return [...new Uint8Array(buffer)].map(x => x.toString(16).padStart(2, '0')).join(' ');
+    function loadFile(filePath) {
+        var result = null;
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", filePath, false);
+        xmlhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xmlhttp.setRequestHeader('Access-Control-Allow-Origin', '*');
+        xmlhttp.send();
+        if (xmlhttp.status==200) {
+            result = xmlhttp.responseText;
+        }
+        return result;
+    }
+
+    async function readServerFirmwareFile(path, dispReadme = true) {
+        return new Promise((resolve) => {
+            var buffer;
+            var raw = new XMLHttpRequest();
+            var fname = path;
+
+            raw.open("GET", fname, true);
+            raw.responseType = "arraybuffer";
+            raw.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    resolve(this.response);
+                }
+            };
+            raw.send(null);
+        });
     }
 
     document.addEventListener('DOMContentLoaded', event => {
         let connectButton = document.querySelector("#connect");
         let downloadButton = document.querySelector("#download");
+        let uploadButton = document.querySelector("#upload");
         let statusDisplay = document.querySelector("#status");
         let infoDisplay = document.querySelector("#usbInfo");
         let dfuDisplay = document.querySelector("#dfuInfo");
@@ -309,7 +339,6 @@ var device = null;
         let transferSize = 1024;
 
         let firmwareFileField = document.querySelector("#firmwareFile");
-        let firmwareFile = null;
 
         let downloadLog = document.querySelector("#downloadLog");
         let uploadLog = document.querySelector("#uploadLog");
@@ -437,10 +466,12 @@ var device = null;
                 // Runtime
                 downloadButton.disabled = true;
                 firmwareFileField.disabled = true;
+                uploadButton.disabled = true;
             } else {
                 // DFU
                 downloadButton.disabled = false;
                 firmwareFileField.disabled = false;
+                uploadButton.disabled = false;
             }
 
             if (device.memoryInfo) {
@@ -483,6 +514,44 @@ var device = null;
             );
         }
 
+        uploadButton.addEventListener('click', async function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            if (!configForm.checkValidity()) {
+                configForm.reportValidity();
+                return false;
+            }
+
+            if (!device || !device.device_.opened) {
+                onDisconnect();
+                device = null;
+            } else {
+                setLogContext(uploadLog);
+                clearLog(uploadLog);
+                try {
+                    let status = await device.getStatus();
+                    if (status.state == dfu.dfuERROR) {
+                        await device.clearStatus();
+                    }
+                } catch (error) {
+                    device.logWarning("Failed to clear status");
+                }
+
+                let maxSize = device.getMaxReadSize(device.startAddress);
+
+                try {
+                    const blob = await device.do_upload(transferSize, maxSize);
+                    saveAs(blob, pedalName + "-firmware.bin");
+                } catch (error) {
+                    logError(error);
+                }
+
+                setLogContext(null);
+            }
+
+            return false;
+        });
+
         connectButton.addEventListener('click', function() {
             if (device) {
                 device.close().then(onDisconnect);
@@ -512,13 +581,11 @@ var device = null;
 
         firmwareFileField.addEventListener("change", function() {
             firmwareFile = null;
-            if (firmwareFileField.files.length > 0) {
-                let file = firmwareFileField.files[0];
-                let reader = new FileReader();
-                reader.onload = function() {
-                    firmwareFile = reader.result;
-                };
-                reader.readAsArrayBuffer(file);
+            if (firmwareFileField.value) {
+                readServerFirmwareFile(firmwareFileField.value.toString()).then((buffer) => {
+                    firmwareFile = buffer;
+                });
+
             }
         });
 
