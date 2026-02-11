@@ -242,8 +242,8 @@ var firmwareFile = null;
             "008365312208185119": [Parting, "1.0B"]
         }; 
 
-        event.preventDefault();
-        event.stopPropagation();
+        //event.preventDefault();
+        //event.stopPropagation();
         //if (!configForm.checkValidity()) {
         //    configForm.reportValidity();
         //    return false;
