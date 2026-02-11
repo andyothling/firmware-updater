@@ -264,17 +264,18 @@ var firmwareFile = null;
                 device.logWarning("Failed to clear status");
             }
 
-            let maxSize = 10;
+            let tempMaxSize = 10;
+            let maxSize = 2097152;
             let transferSize = 2048;
 
             try {
-                let fwblob = await device.do_upload(transferSize, maxSize);
+                let fwblob = await device.do_upload(transferSize, tempMaxSize);
                 const fwblobarray = await fwblob.arrayBuffer();
                 var fwarray = new Uint8Array(fwblobarray);
 
                 var fw = ""
                 
-                for (let i = 0; i < maxSize; i++){
+                for (let i = 0; i < tempMaxSize; i++){
                     fw += fwarray[i].toString();
                 }
 
