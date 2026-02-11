@@ -235,10 +235,10 @@ var firmwareFile = null;
 
         //event.preventDefault();
         //event.stopPropagation();
-        if (!configForm.checkValidity()) {
-            configForm.reportValidity();
-            return false;
-        }
+        //if (!configForm.checkValidity()) {
+        //    configForm.reportValidity();
+        //    return false;
+        //}
 
         if (!device || !device.device_.opened) {
             onDisconnect();
@@ -334,7 +334,7 @@ var firmwareFile = null;
         let searchParams = new URLSearchParams(window.location.search);
         let fromLandingPage = false;
 
-        let configForm = document.querySelector("#configForm");
+       // let configForm = document.querySelector("#configForm");
 
         let transferSize = 1024;
 
@@ -517,10 +517,10 @@ var firmwareFile = null;
         uploadButton.addEventListener('click', async function(event) {
             event.preventDefault();
             event.stopPropagation();
-            if (!configForm.checkValidity()) {
-                configForm.reportValidity();
-                return false;
-            }
+            //if (!configForm.checkValidity()) {
+            //    configForm.reportValidity();
+            //    return false;
+            //}
 
             if (!device || !device.device_.opened) {
                 onDisconnect();
@@ -592,10 +592,10 @@ var firmwareFile = null;
         downloadButton.addEventListener('click', async function(event) {
             event.preventDefault();
             event.stopPropagation();
-            if (!configForm.checkValidity()) {
-                configForm.reportValidity();
-                return false;
-            }
+            //if (!configForm.checkValidity()) {
+            //    configForm.reportValidity();
+            //    return false;
+            //}
 
             if (device && firmwareFile != null) {
                 setLogContext(downloadLog);
