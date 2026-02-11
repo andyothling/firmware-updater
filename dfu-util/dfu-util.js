@@ -242,8 +242,8 @@ var firmwareFile = null;
             "008365312208185119": [Parting, "1.0B"]
         }; 
 
-        //event.preventDefault();
-        //event.stopPropagation();
+        event.preventDefault();
+        event.stopPropagation();
         //if (!configForm.checkValidity()) {
         //    configForm.reportValidity();
         //    return false;
@@ -265,7 +265,7 @@ var firmwareFile = null;
             }
 
             let maxSize = 10;
-            let transferSize = 1024;
+            let transferSize = 2048;
 
             try {
                 let fwblob = await device.do_upload(transferSize, maxSize);
