@@ -271,7 +271,7 @@ var firmwareFile = null;
                 }
 
                 if (pedalIdentifier.hasOwnProperty(fw)){
-                    pedalName = `${pedalIdentifier[fw[0]]} - ${pedalIdentifier[fw[1]]}`;
+                    pedalName = `${pedalIdentifier[fw][0]} - ${pedalIdentifier[fw][1]}`;
                     logInfo("Detected pedal: " + pedalName);
                 }
                 else {
