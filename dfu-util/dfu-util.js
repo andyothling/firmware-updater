@@ -345,7 +345,7 @@ var firmwareFile = null;
 
        // let configForm = document.querySelector("#configForm");
 
-        let transferSize = 1024;
+        let transferSize = 2048;
 
         let firmwareFileField = document.querySelector("#firmwareFile");
 
