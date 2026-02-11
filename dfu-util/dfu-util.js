@@ -229,6 +229,7 @@ var firmwareFile = null;
             "008362291841819763": [BlackFountain, "4.0B"],
             "00836971861812164": [BlackFountain, "4.0D"],
             "008361771881816966": [DarkStar, "3.0J"],
+            "0083673189181767" : [DarkStar, "3.0K"],
             "00836651871815367": [DarkStar, "3.0L"],
             "00836771941823769": [Bathing, "1.0D"]
         }; 
@@ -270,8 +271,8 @@ var firmwareFile = null;
                 }
 
                 if (pedalIdentifier.hasOwnProperty(fw)){
-                    logInfo("Detected pedal: " + pedalIdentifier[fw]);
                     pedalName = `${pedalIdentifier[fw[0]]} - ${pedalIdentifier[fw[1]]}`;
+                    logInfo("Detected pedal: " + pedalName);
                 }
                 else {
                     logInfo("Could not identify pedal: " + fw);
