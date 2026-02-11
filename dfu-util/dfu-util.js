@@ -265,7 +265,7 @@ var firmwareFile = null;
             }
 
             let tempMaxSize = 10;
-            let maxSize = 2097152;
+            let maxSize = 1024;
             let transferSize = 2048;
 
             try {
