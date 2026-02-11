@@ -227,6 +227,7 @@ var firmwareFile = null;
 
         let pedalIdentifier = {
             "008362291841819763": [BlackFountain, "4.0B"],
+            "00836331851824563" : [BlackFountain, "4.0C"],
             "00836971861812164": [BlackFountain, "4.0D"],
             "008361771881816966": [DarkStar, "3.0J"],
             "0083673189181767" : [DarkStar, "3.0K"],
