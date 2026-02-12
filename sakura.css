@@ -171,6 +171,6 @@ label, legend, fieldset {
   display: block;
 }
 
-.fwselect {
+#fwselect {
   display: none;
 }
