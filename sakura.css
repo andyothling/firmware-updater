@@ -162,3 +162,7 @@ label, legend, fieldset {
 #upload {
   display: none;
 }
+
+.fwselect {
+  display: none;
+}

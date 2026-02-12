@@ -335,7 +335,7 @@ var firmwareFile = null;
 
        // let configForm = document.querySelector("#configForm");
 
-        let transferSize = 2048;
+        let transferSize = 1024;
 
         let firmwareFileField = document.querySelector("#firmwareFile");
 
@@ -344,7 +344,6 @@ var firmwareFile = null;
 
         let manifestationTolerant = true;
 
-        //let device;
         let fwBaseUrl = "https://andyothling.github.io/firmware-updater/firmware/"
         let newestFirmware = {
             DarkStar: `${fwBaseUrl}DarkStar-3-0L-firmware.bin`,
