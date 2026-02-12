@@ -242,13 +242,6 @@ var firmwareFile = null;
             "008365312208185119": [Parting, "1.0B"]
         }; 
 
-        //event.preventDefault();
-        //event.stopPropagation();
-        //if (!configForm.checkValidity()) {
-        //    configForm.reportValidity();
-        //    return false;
-        //}
-
         if (!device || !device.device_.opened) {
             onDisconnect();
             device = null;
@@ -356,6 +349,14 @@ var firmwareFile = null;
         let manifestationTolerant = true;
 
         //let device;
+        let fwBaseUrl = "https://andyothling.github.io/firmware-updater/firmware/"
+        let newestFirmware = {
+            DarkStar: `${fwBaseUrl}DarkStar-3-0L-firmware.bin`,
+            BlackFountain: `${fwBaseUrl}BlackFountain-4-0D-firmware.bin`,
+            Bathing: `${fwBaseUrl}Bathing-1-0D-firmware.bin`,
+            Sunlight: `${fwBaseUrl}Sunlight-2-4E-firmware.bin`,
+            Parting: `${fwBaseUrl}Parting-1-0B-firmware.bin`,
+        }
 
         function onDisconnect(reason) {
             if (reason) {
@@ -592,7 +593,7 @@ var firmwareFile = null;
         firmwareFileField.addEventListener("change", function() {
             firmwareFile = null;
             if (firmwareFileField.value) {
-                readServerFirmwareFile(firmwareFileField.value.toString()).then((buffer) => {
+                readServerFirmwareFile(newestFirmware[firmwareFileField.value]).then((buffer) => {
                     firmwareFile = buffer;
                 });
 
