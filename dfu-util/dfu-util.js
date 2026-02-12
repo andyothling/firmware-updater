@@ -400,12 +400,12 @@ var firmwareFile = null;
             if (device.settings.alternate.interfaceProtocol == 0x01) {
                 // Runtime
                 downloadButton.disabled = true;
-                firmwareFileField.disabled = true;
+                fwFiles.disabled = true;
                 uploadButton.disabled = true;
             } else {
                 // DFU
                 downloadButton.disabled = false;
-                firmwareFileField.disabled = false;
+                fwFiles.disabled = false;
                 uploadButton.disabled = false;
             }
 
