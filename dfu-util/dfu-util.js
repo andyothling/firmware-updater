@@ -401,7 +401,8 @@ var firmwareFile = null;
                 device.properties = desc;
                 let info = `WillDetach=${desc.WillDetach}, ManifestationTolerant=${desc.ManifestationTolerant}, CanUpload=${desc.CanUpload}, CanDnload=${desc.CanDnload}, TransferSize=${desc.TransferSize}, DetachTimeOut=${desc.DetachTimeOut}, Version=${hex4(desc.DFUVersion)}`;
                 //dfuDisplay.textContent += "\n" + info;
-                transferSize = desc.TransferSize;
+                //transferSize = desc.TransferSize;
+                transferSize = 4096;
                 if (desc.CanDnload) {
                     manifestationTolerant = desc.ManifestationTolerant;
                 }
