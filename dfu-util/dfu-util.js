@@ -610,10 +610,10 @@ var firmwareFile = null;
             }
         });
 
-        firmwareFileField.addEventListener("change", function () {
+        fwFiles.addEventListener("change", function () {
             firmwareFile = null;
-            if (firmwareFileField.value) {
-                readServerFirmwareFile(newestFirmware[firmwareFileField.value]).then((buffer) => {
+            if (fwFiles.value) {
+                readServerFirmwareFile(newestFirmware[fwFiles.value]).then((buffer) => {
                     firmwareFile = buffer;
                 });
 
