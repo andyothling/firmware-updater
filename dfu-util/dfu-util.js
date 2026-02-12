@@ -490,6 +490,8 @@ var firmwareFile = null;
                         logInfo("Detected pedal: " + pedalName);
                         logInfo("Version: " + pedalVersion);
 
+                        pedalName = pedalName.replace(/\s/g, '');
+
                         if (newest[pedalName] == pedalVersion) {
                             logInfo("Your pedal is fully up to date.");
                         }
