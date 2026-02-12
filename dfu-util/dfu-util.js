@@ -269,8 +269,6 @@ var firmwareFile = null;
 
         let transferSize = 1024;
 
-        let firmwareFileField = document.querySelector("#firmwareFile");
-
         let downloadLog = document.querySelector("#downloadLog");
         let uploadLog = document.querySelector("#uploadLog");
 
@@ -499,7 +497,7 @@ var firmwareFile = null;
                         else {
                             logInfo("Update available.");
                             fwFiles.value = pedalName;
-                            fwFiles.click();
+                            //fwFiles.click();
                             downloadButton.classList.remove("hidden");
                         }
                     }
