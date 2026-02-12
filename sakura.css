@@ -163,6 +163,14 @@ label, legend, fieldset {
   display: none;
 }
 
-/*.fwselect {
+#download {
   display: none;
-}*/
+}
+
+.showme {
+  display: block;
+}
+
+.fwselect {
+  display: none;
+}

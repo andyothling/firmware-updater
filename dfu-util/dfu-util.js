@@ -1,5 +1,6 @@
 var device = null;
 var pedalName = null;
+var pedalVersion = null;
 var firmwareFile = null;
 (function() {
     'use strict';
@@ -226,6 +227,14 @@ var firmwareFile = null;
         let Sunlight = "Sunlight";
         let Parting = "Parting";
 
+        let newest = {
+            BlackFountain: "4.0D",
+            DarkStar: "3.0L",
+            Sunlight: "2.4E",
+            Bathing: "1.0D",
+            Parting: "1.0B"
+        }
+
         let pedalIdentifier = {
             "008362291841819763": [BlackFountain, "4.0B"],
             "00836331851824563" : [BlackFountain, "4.0C"],
@@ -259,7 +268,7 @@ var firmwareFile = null;
 
             let tempMaxSize = 10;
             let maxSize = 1024;
-            let transferSize = 2048;
+            let transferSize = 10;
 
             try {
                 let fwblob = await device.do_upload(transferSize, tempMaxSize);
@@ -273,11 +282,23 @@ var firmwareFile = null;
                 }
 
                 if (pedalIdentifier.hasOwnProperty(fw)){
-                    pedalName = `${pedalIdentifier[fw][0]} - ${pedalIdentifier[fw][1]}`;
+                    pedalName = pedalIdentifier[fw][0];
+                    pedalVersion = pedalIdentifier[fw][1];
                     logInfo("Detected pedal: " + pedalName);
+                    logInfo("Version: " + pedalVersion);
+
+                    if (newest[pedalName] == pedalVersion){
+                        logInfo("Your pedal is fully up to date.");
+                    }
+                    else {
+                        logInfo("Update available.");
+                        downloadButton.classList.add("showme");
+                    }
                 }
                 else {
                     logInfo("Could not identify pedal: " + fw);
+                    downloadButton.classList.add("showme");
+                    fwSection.classList.add("showme");
                 }
 
 
@@ -330,6 +351,7 @@ var firmwareFile = null;
         let infoDisplay = document.querySelector("#usbInfo");
         let dfuDisplay = document.querySelector("#dfuInfo");
         let vidField = document.querySelector("#vid");
+        let fwSection = document.querySelector("#fwselect")
 
         let fromLandingPage = false;
 
@@ -619,7 +641,7 @@ var firmwareFile = null;
                         logInfo("Done!");
                         setLogContext(null);
                         if (!manifestationTolerant) {
-                            device.waitDisconnected(50).then(
+                            device.waitDisconnected(1).then(
                                 dev => {
                                     onDisconnect();
                                     device = null;
