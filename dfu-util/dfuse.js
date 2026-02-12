@@ -260,7 +260,7 @@ var dfuse = {};
             //this.logDebug("Wrote " + bytes_written + " bytes");
             bytes_sent += bytes_written;
 
-            //this.logProgress(bytes_sent, expected_size);
+            this.logProgress(bytes_sent, expected_size);
         }
         //this.logInfo(`Wrote ${bytes_sent} bytes`);
 
