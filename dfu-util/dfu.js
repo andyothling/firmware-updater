@@ -565,7 +565,7 @@ var dfu = {};
         
         while (!state_predicate(dfu_status.state) && dfu_status.state != dfu.dfuERROR) {
             //await async_sleep(dfu_status.pollTimeout);
-            await async_sleep(10);
+            await async_sleep(1);
             dfu_status = await this.getStatus();
         }
 
