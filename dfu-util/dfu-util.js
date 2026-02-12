@@ -292,7 +292,6 @@ var firmwareFile = null;
             infoDisplay.textContent = "";
             dfuDisplay.textContent = "";
             downloadButton.disabled = true;
-            firmwareFileField.disabled = true;
             setLogContext(uploadLog);
             clearLog(uploadLog);
             setLogContext(null);
@@ -496,7 +495,9 @@ var firmwareFile = null;
                         }
                         else {
                             logInfo("Update available.");
-                            fwFiles.value = pedalName;
+                            readServerFirmwareFile(newestFirmware[pedalName]).then((buffer) => {
+                                firmwareFile = buffer;
+                            });
                             //fwFiles.click();
                             downloadButton.classList.remove("hidden");
                         }
