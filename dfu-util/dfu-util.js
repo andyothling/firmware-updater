@@ -2,7 +2,7 @@ var device = null;
 var pedalName = null;
 var pedalVersion = null;
 var firmwareFile = null;
-(function() {
+(function () {
     'use strict';
 
     function hex4(n) {
@@ -101,7 +101,7 @@ var firmwareFile = null;
 
         let button = form.getElementsByTagName("button")[0];
 
-        for (let i=0; i < interfaces.length; i++) {
+        for (let i = 0; i < interfaces.length; i++) {
             let radio = document.createElement("input");
             radio.type = "radio";
             radio.name = "interfaceIndex";
@@ -140,19 +140,19 @@ var firmwareFile = null;
 
                 if (funcDesc) {
                     return {
-                        WillDetach:            ((funcDesc.bmAttributes & 0x08) != 0),
+                        WillDetach: ((funcDesc.bmAttributes & 0x08) != 0),
                         ManifestationTolerant: ((funcDesc.bmAttributes & 0x04) != 0),
-                        CanUpload:             ((funcDesc.bmAttributes & 0x02) != 0),
-                        CanDnload:             ((funcDesc.bmAttributes & 0x01) != 0),
-                        TransferSize:          funcDesc.wTransferSize,
-                        DetachTimeOut:         funcDesc.wDetachTimeOut,
-                        DFUVersion:            funcDesc.bcdDFUVersion
+                        CanUpload: ((funcDesc.bmAttributes & 0x02) != 0),
+                        CanDnload: ((funcDesc.bmAttributes & 0x01) != 0),
+                        TransferSize: funcDesc.wTransferSize,
+                        DetachTimeOut: funcDesc.wDetachTimeOut,
+                        DFUVersion: funcDesc.bcdDFUVersion
                     };
                 } else {
                     return {};
                 }
             },
-            error => {}
+            error => { }
         );
     }
 
@@ -220,99 +220,6 @@ var firmwareFile = null;
         }
     }
 
-    async function getFirmware(device) {    
-        let BlackFountain = "Black Fountain";
-        let DarkStar = "Dark Star";
-        let Bathing = "Bathing";
-        let Sunlight = "Sunlight";
-        let Parting = "Parting";
-
-        let newest = {
-            BlackFountain: "4.0D",
-            DarkStar: "3.0L",
-            Sunlight: "2.4E",
-            Bathing: "1.0D",
-            Parting: "1.0B"
-        }
-
-        let pedalIdentifier = {
-            "008362291841819763": [BlackFountain, "4.0B"],
-            "00836331851824563" : [BlackFountain, "4.0C"],
-            "00836971861812164": [BlackFountain, "4.0D"],
-            "008361771881816966": [DarkStar, "3.0J"],
-            "0083673189181767": [DarkStar, "3.0K"],
-            "00836651871815367": [DarkStar, "3.0L"],
-            "00836811971821371": [Sunlight, "2.4B"],
-            "00836201197182972": [Sunlight, "2.4C"],
-            "00836249197187772": [Sunlight, "2.4D"],
-            "00836253197186972": [Sunlight, "2.4E"],
-            "00836291941819769": [Bathing, "1.0D"],
-            "00836512208137119": [Parting, "1.0A"],
-            "008365312208185119": [Parting, "1.0B"]
-        }; 
-
-        if (!device || !device.device_.opened) {
-            onDisconnect();
-            device = null;
-        } else {
-            setLogContext(uploadLog);
-            clearLog(uploadLog);
-            try {
-                let status = await device.getStatus();
-                if (status.state == dfu.dfuERROR) {
-                    await device.clearStatus();
-                }
-            } catch (error) {
-                device.logWarning("Failed to clear status");
-            }
-
-            let tempMaxSize = 10;
-            let maxSize = 1024;
-            let transferSize = 10;
-
-            try {
-                let fwblob = await device.do_upload(transferSize, tempMaxSize);
-                const fwblobarray = await fwblob.arrayBuffer();
-                var fwarray = new Uint8Array(fwblobarray);
-
-                var fw = ""
-                
-                for (let i = 0; i < tempMaxSize; i++){
-                    fw += fwarray[i].toString();
-                }
-
-                if (pedalIdentifier.hasOwnProperty(fw)){
-                    pedalName = pedalIdentifier[fw][0];
-                    pedalVersion = pedalIdentifier[fw][1];
-                    logInfo("Detected pedal: " + pedalName);
-                    logInfo("Version: " + pedalVersion);
-
-                    if (newest[pedalName] == pedalVersion){
-                        logInfo("Your pedal is fully up to date.");
-                    }
-                    else {
-                        logInfo("Update available.");
-                        downloadButton.classList.add("showme");
-                    }
-                }
-                else {
-                    logInfo("Could not identify pedal: " + fw);
-                    downloadButton.classList.add("showme");
-                    fwSection.classList.add("showme");
-                }
-
-
-            } catch (error) {
-                logError(error);
-            }
-
-            setLogContext(null);
-        }
-
-        return false;
-
-    }
-
     function loadFile(filePath) {
         var result = null;
         var xmlhttp = new XMLHttpRequest();
@@ -320,7 +227,7 @@ var firmwareFile = null;
         xmlhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         xmlhttp.setRequestHeader('Access-Control-Allow-Origin', '*');
         xmlhttp.send();
-        if (xmlhttp.status==200) {
+        if (xmlhttp.status == 200) {
             result = xmlhttp.responseText;
         }
         return result;
@@ -354,8 +261,6 @@ var firmwareFile = null;
         let fwSection = document.querySelector("#fwselect")
 
         let fromLandingPage = false;
-
-       // let configForm = document.querySelector("#configForm");
 
         let transferSize = 1024;
 
@@ -460,7 +365,7 @@ var firmwareFile = null;
                                 propertySummary = "inaccessible";
                             }
 
-                            memorySummary += `\n${hexAddr8(segment.start)}-${hexAddr8(segment.end-1)} (${propertySummary})`;
+                            memorySummary += `\n${hexAddr8(segment.start)}-${hexAddr8(segment.end - 1)} (${propertySummary})`;
                         }
                     }
                 }
@@ -510,10 +415,102 @@ var firmwareFile = null;
                     const maxReadSize = device.getMaxReadSize(segment.start);
                 }
             } else {
-               
+
             }
 
             return device;
+        }
+
+        async function getFirmware(device) {
+            let BlackFountain = "Black Fountain";
+            let DarkStar = "Dark Star";
+            let Bathing = "Bathing";
+            let Sunlight = "Sunlight";
+            let Parting = "Parting";
+
+            let newest = {
+                BlackFountain: "4.0D",
+                DarkStar: "3.0L",
+                Sunlight: "2.4E",
+                Bathing: "1.0D",
+                Parting: "1.0B"
+            }
+
+            let pedalIdentifier = {
+                "008362291841819763": [BlackFountain, "4.0B"],
+                "00836331851824563": [BlackFountain, "4.0C"],
+                "00836971861812164": [BlackFountain, "4.0D"],
+                "008361771881816966": [DarkStar, "3.0J"],
+                "0083673189181767": [DarkStar, "3.0K"],
+                "00836651871815367": [DarkStar, "3.0L"],
+                "00836811971821371": [Sunlight, "2.4B"],
+                "00836201197182972": [Sunlight, "2.4C"],
+                "00836249197187772": [Sunlight, "2.4D"],
+                "00836253197186972": [Sunlight, "2.4E"],
+                "00836291941819769": [Bathing, "1.0D"],
+                "00836512208137119": [Parting, "1.0A"],
+                "008365312208185119": [Parting, "1.0B"]
+            };
+
+            if (!device || !device.device_.opened) {
+                onDisconnect();
+                device = null;
+            } else {
+                setLogContext(uploadLog);
+                clearLog(uploadLog);
+                try {
+                    let status = await device.getStatus();
+                    if (status.state == dfu.dfuERROR) {
+                        await device.clearStatus();
+                    }
+                } catch (error) {
+                    device.logWarning("Failed to clear status");
+                }
+
+                let tempMaxSize = 10;
+                let maxSize = 1024;
+                let transferSize = 10;
+
+                try {
+                    let fwblob = await device.do_upload(transferSize, tempMaxSize);
+                    const fwblobarray = await fwblob.arrayBuffer();
+                    var fwarray = new Uint8Array(fwblobarray);
+
+                    var fw = ""
+
+                    for (let i = 0; i < tempMaxSize; i++) {
+                        fw += fwarray[i].toString();
+                    }
+
+                    if (pedalIdentifier.hasOwnProperty(fw)) {
+                        pedalName = pedalIdentifier[fw][0];
+                        pedalVersion = pedalIdentifier[fw][1];
+                        logInfo("Detected pedal: " + pedalName);
+                        logInfo("Version: " + pedalVersion);
+
+                        if (newest[pedalName] == pedalVersion) {
+                            logInfo("Your pedal is fully up to date.");
+                        }
+                        else {
+                            logInfo("Update available.");
+                            downloadButton.classList.add("showme");
+                        }
+                    }
+                    else {
+                        logInfo("Could not identify pedal: " + fw);
+                        downloadButton.classList.add("showme");
+                        fwSection.classList.add("showme");
+                    }
+
+
+                } catch (error) {
+                    logError(error);
+                }
+
+                setLogContext(null);
+            }
+
+            return false;
         }
 
         function autoConnect(vid, serial) {
@@ -542,7 +539,7 @@ var firmwareFile = null;
             );
         }
 
-        uploadButton.addEventListener('click', async function(event) {
+        uploadButton.addEventListener('click', async function (event) {
             event.preventDefault();
             event.stopPropagation();
             //if (!configForm.checkValidity()) {
@@ -580,7 +577,7 @@ var firmwareFile = null;
             return false;
         });
 
-        connectButton.addEventListener('click', function() {
+        connectButton.addEventListener('click', function () {
             if (device) {
                 device.close().then(onDisconnect);
                 device = null;
@@ -588,7 +585,7 @@ var firmwareFile = null;
                 let filters = [];
                 const vid = 1155;
                 filters.push({ 'vendorId': vid });
-                
+
                 navigator.usb.requestDevice({ 'filters': filters }).then(
                     async selectedDevice => {
                         let interfaces = dfu.findDeviceDfuInterfaces(selectedDevice);
@@ -607,7 +604,7 @@ var firmwareFile = null;
             }
         });
 
-        firmwareFileField.addEventListener("change", function() {
+        firmwareFileField.addEventListener("change", function () {
             firmwareFile = null;
             if (firmwareFileField.value) {
                 readServerFirmwareFile(newestFirmware[firmwareFileField.value]).then((buffer) => {
@@ -617,7 +614,7 @@ var firmwareFile = null;
             }
         });
 
-        downloadButton.addEventListener('click', async function(event) {
+        downloadButton.addEventListener('click', async function (event) {
             event.preventDefault();
             event.stopPropagation();
             //if (!configForm.checkValidity()) {
