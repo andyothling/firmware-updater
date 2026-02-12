@@ -623,7 +623,7 @@ var firmwareFile = null;
                         logInfo("Done!");
                         setLogContext(null);
                         if (!manifestationTolerant) {
-                            device.waitDisconnected(5000).then(
+                            device.waitDisconnected(50).then(
                                 dev => {
                                     onDisconnect();
                                     device = null;
