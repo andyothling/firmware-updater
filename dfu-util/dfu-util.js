@@ -260,6 +260,9 @@ var firmwareFile = null;
         let vidField = document.querySelector("#vid");
         let fwSection = document.querySelector("#fwselect")
 
+        downloadButton.classList.add("hidden");
+        fwSection.classList.add("hidden");
+
         let fromLandingPage = false;
 
         let transferSize = 1024;
@@ -493,13 +496,13 @@ var firmwareFile = null;
                         }
                         else {
                             logInfo("Update available.");
-                            downloadButton.classList.add("showme");
+                            downloadButton.classList.remove("hidden");
                         }
                     }
                     else {
                         logInfo("Could not identify pedal: " + fw);
-                        downloadButton.classList.add("showme");
-                        fwSection.classList.add("showme");
+                        downloadButton.classList.remove("hidden");
+                        fwSection.classList.remove("hidden");
                     }
 
 

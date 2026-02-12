@@ -159,18 +159,10 @@ label, legend, fieldset {
   margin-bottom: .5rem;
   font-weight: 600; }
 
-#upload {
-  display: none;
-}
-
-#download {
-  display: none;
-}
-
 .showme {
-  display: block;
+  display: inline-block;
 }
 
-#fwselect {
+.hidden {
   display: none;
 }
