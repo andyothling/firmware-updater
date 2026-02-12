@@ -258,8 +258,10 @@ var firmwareFile = null;
         let infoDisplay = document.querySelector("#usbInfo");
         let dfuDisplay = document.querySelector("#dfuInfo");
         let vidField = document.querySelector("#vid");
-        let fwSection = document.querySelector("#fwselect")
+        let fwSection = document.querySelector("#fwselect");
+        let fwFiles = document.getElementById("firmwareFile");
 
+        uploadButton.classList.add("hidden");
         downloadButton.classList.add("hidden");
         fwSection.classList.add("hidden");
 
@@ -496,6 +498,7 @@ var firmwareFile = null;
                         }
                         else {
                             logInfo("Update available.");
+                            fwFiles.value = pedalVersion;
                             downloadButton.classList.remove("hidden");
                         }
                     }
