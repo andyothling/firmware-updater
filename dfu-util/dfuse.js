@@ -243,9 +243,9 @@ var dfuse = {};
             let dfu_status;
             try {
                 await this.dfuseCommand(dfuse.SET_ADDRESS, address, 4);
-                this.logDebug(`Set address to 0x${address.toString(16)}`);
+                //this.logDebug(`Set address to 0x${address.toString(16)}`);
                 bytes_written = await this.download(data.slice(bytes_sent, bytes_sent+chunk_size), 2);
-                this.logDebug("Sent " + bytes_written + " bytes");
+                //this.logDebug("Sent " + bytes_written + " bytes");
                 dfu_status = await this.poll_until_idle(dfu.dfuDNLOAD_IDLE);
                 //dfu_status = dfu_status.state;
                 address += chunk_size;
@@ -257,12 +257,12 @@ var dfuse = {};
                 throw `DFU DOWNLOAD failed state=${dfu_status.state}, status=${dfu_status.status}`;
             }
 
-            this.logDebug("Wrote " + bytes_written + " bytes");
+            //this.logDebug("Wrote " + bytes_written + " bytes");
             bytes_sent += bytes_written;
 
-            this.logProgress(bytes_sent, expected_size);
+            //this.logProgress(bytes_sent, expected_size);
         }
-        this.logInfo(`Wrote ${bytes_sent} bytes`);
+        //this.logInfo(`Wrote ${bytes_sent} bytes`);
 
         this.logInfo("Manifesting new firmware");
         try {
