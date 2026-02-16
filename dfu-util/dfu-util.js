@@ -261,7 +261,7 @@ var firmwareFile = null;
         let fwSection = document.querySelector("#fwselect");
         let fwFiles = document.getElementById("firmwareFiles");
 
-        uploadButton.classList.add("hidden");
+        //uploadButton.classList.add("hidden");
         downloadButton.classList.add("hidden");
         fwSection.classList.add("hidden");
 
@@ -387,14 +387,6 @@ var firmwareFile = null;
             // Display basic USB information
             statusDisplay.textContent = '';
             connectButton.textContent = 'Disconnect';
-            /*infoDisplay.textContent = (
-                "Name: " + device.device_.productName + "\n" +
-                "MFG: " + device.device_.manufacturerName + "\n" +
-                "Serial: " + device.device_.serialNumber + "\n"
-            );
-
-            // Display basic dfu-util style info
-            dfuDisplay.textContent = formatDFUSummary(device) + "\n" + memorySummary;*/
 
             // Update buttons based on capabilities
             if (device.settings.alternate.interfaceProtocol == 0x01) {
@@ -499,8 +491,7 @@ var firmwareFile = null;
                             logInfo("Update available.");
                             readServerFirmwareFile(newestFirmware[pedalName]).then((buffer) => {
                                 firmwareFile = buffer;
-                            });
-                            //fwFiles.click();
+                            });     
                             downloadButton.classList.remove("hidden");
                         }
                     }
@@ -550,10 +541,6 @@ var firmwareFile = null;
         uploadButton.addEventListener('click', async function (event) {
             event.preventDefault();
             event.stopPropagation();
-            //if (!configForm.checkValidity()) {
-            //    configForm.reportValidity();
-            //    return false;
-            //}
 
             if (!device || !device.device_.opened) {
                 onDisconnect();
@@ -570,7 +557,8 @@ var firmwareFile = null;
                     device.logWarning("Failed to clear status");
                 }
 
-                let maxSize = device.getMaxReadSize(device.startAddress);
+                //let maxSize = device.getMaxReadSize(device.startAddress);
+                let maxSize = 2048;
 
                 try {
                     const blob = await device.do_upload(transferSize, maxSize);
@@ -625,10 +613,6 @@ var firmwareFile = null;
         downloadButton.addEventListener('click', async function (event) {
             event.preventDefault();
             event.stopPropagation();
-            //if (!configForm.checkValidity()) {
-            //    configForm.reportValidity();
-            //    return false;
-            //}
 
             if (device && firmwareFile != null) {
                 setLogContext(downloadLog);
