@@ -262,8 +262,8 @@ var firmwareFile = null;
         let fwFiles = document.getElementById("firmwareFiles");
 
         //uploadButton.classList.add("hidden");
-        downloadButton.classList.add("hidden");
-        fwSection.classList.add("hidden");
+        //downloadButton.classList.add("hidden");
+        //fwSection.classList.add("hidden");
 
         let fromLandingPage = false;
 
@@ -492,13 +492,13 @@ var firmwareFile = null;
                             readServerFirmwareFile(newestFirmware[pedalName]).then((buffer) => {
                                 firmwareFile = buffer;
                             });     
-                            downloadButton.classList.remove("hidden");
+                            //downloadButton.classList.remove("hidden");
                         }
                     }
                     else {
                         logInfo("Could not identify pedal: " + fw);
-                        downloadButton.classList.remove("hidden");
-                        fwSection.classList.remove("hidden");
+                        //downloadButton.classList.remove("hidden");
+                        //fwSection.classList.remove("hidden");
                     }
 
 
