@@ -557,11 +557,12 @@ var firmwareFile = null;
                     device.logWarning("Failed to clear status");
                 }
 
-                //let maxSize = device.getMaxReadSize(device.startAddress);
-                let maxSize = 2048;
+                let maxSize = device.getMaxReadSize(device.startAddress);
+                //let maxSize = 2048;
 
                 try {
                     const blob = await device.do_upload(transferSize, maxSize);
+                    //const blob = await device.do_upload(transferSize, 2048);
                     saveAs(blob, pedalName + "-firmware.bin");
                 } catch (error) {
                     logError(error);
